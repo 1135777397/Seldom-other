@@ -50,7 +50,7 @@ class Logger(object):
             last_log_timestamp = time.mktime(
                 time.strptime(last_log_name[:last_log_name.find('.')], "%Y-%m-%d"))
             now_log_timestamp = time.mktime(time.strptime(time_with_Y_m_d, "%Y-%m-%d"))
-            if now_log_timestamp - last_log_timestamp < 2:
+            if now_log_timestamp - last_log_timestamp < 3600:
                 # 创建一个handler，用于写入日志文件
                 log_name = dir_path + '/' + last_log_name
                 print("last" + log_name)
