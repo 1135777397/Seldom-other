@@ -51,3 +51,7 @@ DateTimeTool
 ## browserEngine.py
 >调用、开启、关闭浏览器判断类
 
+
+## connectDataBase.py
+> 连接数据库，支持oracle、mysql 
+> 打开、关闭、查询、插入
