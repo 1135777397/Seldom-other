@@ -42,8 +42,8 @@ class ConnectDataBase:
             return True
         elif self.type == "mysql":
             try:
-                self.conn = pymysql.connect(self.host, self.user,
-                                            self.pwd, port=self.port, charset='utf8')
+                self.conn = pymysql.connect(host=self.host, user=self.user,
+                                            password=self.pwd, port=self.port, charset='utf8')
                 logger.info("成功连接数据库！")
             except Exception as e:
                 logger.error(e)
