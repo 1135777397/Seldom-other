@@ -39,7 +39,7 @@ class Logger(object):
             将日志存入到指定的文件中
         """
         # 路径为当前文件上一级再上一级
-        self.path = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'logs')
+        self.path = os.path.join(os.path.abspath(os.path.dirname(os.path.dirname(__file__))), 'logs')
         # print(os.path.dirname(os.path.dirname(__file__)))
         # print(self.path)
         """
