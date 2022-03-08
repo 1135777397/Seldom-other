@@ -43,3 +43,7 @@ DateTimeTool
   - 显示几年前日期 
 - getCurrentMonthFirstDayOrLastDay 
   - 获取当前月第一天或者最后一天日期
+
+
+## readConfig.py
+>读取config.ini文件
