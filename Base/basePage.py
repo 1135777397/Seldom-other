@@ -70,18 +70,18 @@ class BasePage(object):
         return self.driver.switch_to
 
     @property
-    def get_text(self, element: WebElement):
+    def get_text(self, element):
         """获取当前控件的text值"""
         logger.info("element's text is {}".format(element.text))
         return element.text
 
     @property
-    def click(self, element: WebElement):
+    def click(self, element):
         """点击控件"""
         element.click()
 
     @property
-    def submit(self, element: WebElement):
+    def submit(self, element):
         """提交表单"""
         element.submit()
 
@@ -92,6 +92,21 @@ class BasePage(object):
         element.clear()
         element.send_keys(text)
 
+    @property
+    def send_keys(self, element, keys):
+        """提交参数"""
+        element.send_keys(keys)
+
+    @property
+    def is_displayed(self, element):
+        """是否可见"""
+        flag = element.is_displayed()
+        return flag
+
+    def is_enabled(self, element):
+        """是否可见"""
+        flag = element.is_enabled()
+        return flag
 
     def get(self, url):
         """打开一个新页面"""
