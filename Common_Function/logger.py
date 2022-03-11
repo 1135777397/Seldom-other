@@ -83,7 +83,7 @@ class Logger(object):
         # 获取配置文件中的日志等级
         level = ReadConfig().get_logger_level()
         self.lever_file = level['log_level_file']
-        print(self.lever_file)
+        # print(self.lever_file)
         self.level_console = level['log_level_console']
         # 输出日志的handler处理器
         file_handler = logging.handlers.TimedRotatingFileHandler(filename=log_name, when='H', interval=1,

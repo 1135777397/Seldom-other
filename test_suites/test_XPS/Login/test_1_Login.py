@@ -1,7 +1,7 @@
 import unittest
 
 from Common_Function.logger import Logger
-from test_suites.test_XPS.Login import *
+from test_suites.test_XPS import *
 
 logger = Logger(logger="XPS_Login").getlogger()
 """

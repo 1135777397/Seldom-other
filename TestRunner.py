@@ -1,6 +1,4 @@
 # _*_ coding:utf-8 _*_
-
-import unittest
 import sys
 import os
 
@@ -20,11 +18,11 @@ class RunAllTests(object):
     def run(self):
         # 启动测试时创建文件夹并获取报告的名字
         daf = HTMLTestReportCN.DirAndFiles()
-        daf.create_dir(title='CDS测试报告')
+        daf.create_dir(title='XPS测试报告')
         report_path = HTMLTestReportCN.GlobalMsg.get_value("report_path")
 
         with open(report_path, "wb") as fp:
-            runner = HTMLTestReportCN.HTMLTestRunner(stream=fp, title='CDS测试报告', description='用例执行情况：',
+            runner = HTMLTestReportCN.HTMLTestRunner(stream=fp, title='XPS测试报告', description='用例执行情况：',
                                                      tester=self.tester)
             runner.run(self.test_suite)
 
