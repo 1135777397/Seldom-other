@@ -2,12 +2,12 @@ import pymysql
 import cx_Oracle
 import os
 
-from framework.logger import Logger
+from Common_Function.logger import Logger
 import sys
-from framework.ReadConfig import ReadConfig
+from Common_Function.readConfig import ReadConfig
 
 # create a logger instance
-logger = Logger(logger="DataBase").getlog()
+logger = Logger(logger="DataBase").getlogger()
 
 
 class ConnectDataBase:

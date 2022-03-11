@@ -20,7 +20,7 @@ class BrowserEngine:
         # 注意相对路径获取方法
         self.dirpath = os.path.dirname(os.path.abspath(os.path.dirname(__file__)))
         # windows的驱动程序后缀有exe
-        self.chrome_driver_path = self.dir + '/tools/chromedriver.exe'
+        self.chrome_driver_path = self.dirpath + '/tools/chromedriver.exe'
         # mac的驱动程序后缀无exe
         # self.chrome_driver_path = self.dir + '/tools/chromedriver'
 

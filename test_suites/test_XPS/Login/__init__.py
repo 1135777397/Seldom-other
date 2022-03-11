@@ -1,13 +1,13 @@
-import time
-import unittest
-from framework.browser_engine import BrowserEngine
-from framework.ReadConfig import ReadConfig
+from Common_Function.browserEngine import BrowserEngine
 from framework.HTMLTestReportCN import DirAndFiles
 from framework.ConnectDataBase import ConnectDataBase
 from pageobjects.XPS.Login import LoginPage
 
-
-# from pageobjects.CDS.news import NewsPage
+"""
+    author: kawi
+    time: 22/03/10
+    update:
+"""
 
 
 class to_init():
@@ -33,18 +33,16 @@ def get_daf():
     return DirAndFiles()
 
 
-def get_bd(driver):
+def get_login_page(driver):
     """
-    获取cds登录页面
+    获取XPS登录页面控件
     :return:
     """
     return LoginPage(driver)
 
-
-
-# def get_news(driver):
+# def quit_driver(driver) -> None:
 #     """
-#     获取百度新闻页面
-#     :return:
+#     关闭driver
+#     :param driver:
 #     """
-#     return NewsPage(driver)
+#     driver.quit()

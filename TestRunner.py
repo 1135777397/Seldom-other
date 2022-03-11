@@ -8,7 +8,6 @@ sys.path.append(os.path.abspath(os.path.dirname(__file__)))
 from framework import HTMLTestReportCN
 from framework.ReadConfig import ReadConfig
 from framework.case_strategy import CaseStrategy
-from test_suites.test_CDS import to_init
 
 
 class RunAllTests(object):
@@ -19,8 +18,6 @@ class RunAllTests(object):
         self.tester = ReadConfig().get_test_account()['name']
 
     def run(self):
-        to_init().clean_test_data()
-
         # 启动测试时创建文件夹并获取报告的名字
         daf = HTMLTestReportCN.DirAndFiles()
         daf.create_dir(title='CDS测试报告')
@@ -30,8 +27,6 @@ class RunAllTests(object):
             runner = HTMLTestReportCN.HTMLTestRunner(stream=fp, title='CDS测试报告', description='用例执行情况：',
                                                      tester=self.tester)
             runner.run(self.test_suite)
-
-        to_init().clean_test_data()
 
 
 if __name__ == "__main__":
