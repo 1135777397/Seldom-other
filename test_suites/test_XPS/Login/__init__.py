@@ -1,18 +1,16 @@
 from Common_Function.browserEngine import BrowserEngine
-from framework.HTMLTestReportCN import DirAndFiles
-from framework.ConnectDataBase import ConnectDataBase
+from Common_Function.HTMLTestReportCN import DirAndFiles
+from Common_Function.connectDataBase import ConnectDataBase
 from pageobjects.XPS.Login import LoginPage
 
 """
     author: kawi
     time: 22/03/10
-    update:
+    update: 22/03/11 kawi
 """
 
 
 class to_init():
-    # def __init__(self):
-    # self.user_info = {"userName":"hahaha", "password":"ahahah"}
 
     def get_driver(self):
         """打开网页并获取driver"""

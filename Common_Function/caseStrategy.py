@@ -1,6 +1,12 @@
 import os
 import unittest
 
+"""
+    author: kawi
+    time: 22/03/11
+    update:
+"""
+
 
 class CaseStrategy:
     def __init__(self):

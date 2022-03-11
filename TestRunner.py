@@ -5,9 +5,9 @@ import sys
 import os
 
 sys.path.append(os.path.abspath(os.path.dirname(__file__)))
-from framework import HTMLTestReportCN
-from framework.ReadConfig import ReadConfig
-from framework.case_strategy import CaseStrategy
+from Common_Function import HTMLTestReportCN
+from Common_Function.readConfig import ReadConfig
+from Common_Function.caseStrategy import CaseStrategy
 
 
 class RunAllTests(object):
