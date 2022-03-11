@@ -1,11 +1,13 @@
 import os
 import unittest
+from Common_Function.logger import Logger
 
 """
     author: kawi
     time: 22/03/11
     update:
 """
+logger = Logger(logger="CaseStrategy").getlogger()
 
 
 class CaseStrategy:
@@ -37,6 +39,7 @@ class CaseStrategy:
 
         """
         cases = unittest.TestSuite()
+        logger.info("开始查询用例")
 
         if suite:
             test_suites = []
@@ -53,8 +56,11 @@ class CaseStrategy:
                     if file[-2:] != 'py' and file[-2:] != '__':
                         # print("++++++++++++{0}".format(file))
                         # print(os.path.join(test_suite, self.case_path))
+                        logger.info("开始获取{0}\\{1}目录下的用例".format(os.path.join(test_suite, self.case_path), file))
                         self._collect_cases(file, cases, top_dir=os.path.join(test_suite, self.case_path))
+                        logger.info("获取{0}\\{1}目录下的用例成功！".format(os.path.join(test_suite, self.case_path), file))
         else:
+            logger.error("没有指定用例！")
             self._collect_cases(self.case_path, cases, top_dir=None)
-
+        logger.info("全部用例获取成功！")
         return cases

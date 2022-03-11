@@ -14,6 +14,7 @@ import inspect
 import time
 from selenium.webdriver.remote.webdriver import WebDriver
 from selenium.webdriver.remote.webelement import WebElement
+from selenium.webdriver.common.keys import Keys
 
 # create a logger instance
 logger = Logger(logger="ElementOperation").getlogger()
@@ -64,48 +65,45 @@ class BasePage(object):
         """获取当前浏览器窗口句柄"""
         return self.driver.window_handles
 
-    @property
-    def switch_to(self):
-        """跳转到一个元素、框架、窗口"""
-        return self.driver.switch_to
+    def switch_to_window(self, window_name):
+        self.driver.switch_to.window(window_name)
+
+    def switch_to_frame(self, frame_name):
+        self.driver.switch_to.frame(frame_name)
+
+    def switch_to_parent_frame(self):
+        self.driver.switch_to.parent_frame()
+
+    def switch_to_default_content(self):
+        # 跳到最外层页面
+        self.driver.switch_to.default_content()
 
     @property
     def get_text(self, element):
         """获取当前控件的text值"""
-        logger.info("element's text is {}".format(element.text))
-        return element.text
+        logger.info("element's text is {}".format(self.find_element(element).text))
+        return self.find_element(element).text
 
     @property
-    def click(self, element):
-        """点击控件"""
-        element.click()
+    def get_alert_text(self):
+        """获取alert的信息"""
+        alert = self.driver.switch_to.alert
+        return alert.text
 
     @property
     def submit(self, element):
         """提交表单"""
-        element.submit()
-
-    @property
-    def sendText(self, element, text):
-        """发送text信息"""
-        text = text
-        element.clear()
-        element.send_keys(text)
-
-    @property
-    def send_keys(self, element, keys):
-        """提交参数"""
-        element.send_keys(keys)
+        self.find_element(element).submit()
 
     @property
     def is_displayed(self, element):
         """是否可见"""
-        flag = element.is_displayed()
+        flag = self.find_element(element).is_displayed()
         return flag
 
     def is_enabled(self, element):
         """是否可见"""
-        flag = element.is_enabled()
+        flag = self.find_element(element).is_enabled()
         return flag
 
     def get(self, url):
@@ -114,6 +112,7 @@ class BasePage(object):
 
     def refresh(self):
         """刷新当前页面"""
+        logger.info("refresh page")
         return self.driver.refresh()
 
     def execute_script(self, script, *args):
@@ -123,6 +122,7 @@ class BasePage(object):
 
     def current_url(self):
         """获取当前url"""
+        logger.info("get current url")
         return self.driver.current_url()
 
     def forward(self):
@@ -142,10 +142,12 @@ class BasePage(object):
 
     def set_window_size(self, width, height, windowHandle='current'):
         """设置窗口尺寸"""
+        logger.info("set window size width{0}-height{1}".format(width, height))
         return self.driver.set_window_size(width, height, windowHandle)
 
     def get_window_size(self, windowHandle='current'):
         """获取窗口尺寸"""
+        logger.info("get window size")
         return self.driver.get_window_size(windowHandle)
 
     def sleep(self, seconds):
@@ -157,6 +159,7 @@ class BasePage(object):
         logger.info("Sleep for {} seconds".format(seconds))
         time.sleep(seconds)
 
+    @property
     def get_current_function(self):
         """获取当前方法名称"""
         return inspect.stack()[1][3]
@@ -281,6 +284,7 @@ class BasePage(object):
         :return:
         """
         try:
+            logger.info("wait ElementOperation displayed")
             self.find_element(locate, index, max_times, delay, displayed=displayed)
             return True
         except WebDriverException as e:
@@ -418,6 +422,38 @@ class BasePage(object):
                     logger.info("Click  -->  {}[{}] success".format(locate, i))
                 except WebDriverException as e:
                     logger.error("Click  -->  {}[{}] failure\nFailed to click the element with {}".format(locate, i, e))
+                    raise WebDriverException(self.daf.get_screenshot(self.driver))
+
+    def delete(self, locate, index=0, max_times=20, delay=0.5, displayed=True):
+        """
+        清空test框的数据
+        :param locate: 元素定位
+        :param index: 序号，第一个为0，第二个为1，以此类推，默认为0
+        :param max_times: 最大循环次数，默认为20次
+        :param delay: 延时，默认为0.5秒
+        :param displayed: 是否必须等待到元素可见才算找到元素，默认为True
+        :return:
+        """
+        elements = self.find_element(locate, index, max_times, delay, displayed)
+        if index != None:
+            try:
+                elements.send_keys(Keys.CONTROL, 'a')
+                elements.send_keys(Keys.DELETE)
+                logger.info("Delete  -->  {}[{}] success".format(locate, index))
+            except ElementNotInteractableException:
+                self.execute_script("arguments[0].delete;", elements)
+                logger.info("Delete  -->  {}[{}] success".format(locate, index))
+            except WebDriverException as e:
+                logger.error("Delete  -->  {}[{}] failure\nFailed to delete the element with {}".format(locate, index, e))
+                raise WebDriverException(self.daf.get_screenshot(self.driver))
+        else:
+            for i, element in enumerate(elements):
+                try:
+                    elements.send_keys(Keys.CONTROL, 'a')
+                    elements.send_keys(Keys.DELETE)
+                    logger.info("Delete  -->  {}[{}] success".format(locate, i))
+                except WebDriverException as e:
+                    logger.error("Delete  -->  {}[{}] failure\nFailed to delete the element with {}".format(locate, i, e))
                     raise WebDriverException(self.daf.get_screenshot(self.driver))
 
     def wait_text(self, locate, text, index=0, max_times=20, delay=0.5, displayed=True):

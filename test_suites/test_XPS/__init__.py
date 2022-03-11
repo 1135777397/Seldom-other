@@ -37,3 +37,10 @@ def get_login_page(driver):
     :return:
     """
     return LoginPage(driver)
+
+def get_index_page(driver):
+    """
+    获取XPS主页面
+    :return:
+    """
+    return IndexPage(driver)
