@@ -10,10 +10,9 @@ from selenium.common.exceptions import ElementNotInteractableException, WebDrive
 # 暂时用这个ui，后续接jenkins
 from Common_Function.HTMLTestReportCN import DirAndFiles
 # inspect模块是针对模块，类，方法，功能等对象提供些有用的方法
+from selenium.webdriver.remote.webdriver import WebDriver
 import inspect
 import time
-from selenium.webdriver.remote.webdriver import WebDriver
-from selenium.webdriver.remote.webelement import WebElement
 from selenium.webdriver.common.keys import Keys
 
 # create a logger instance
@@ -81,8 +80,8 @@ class BasePage(object):
     @property
     def get_text(self, element):
         """获取当前控件的text值"""
-        logger.info("element's text is {}".format(self.find_element(element).text))
-        return self.find_element(element).text
+        logger.info("element's text is {}".format(self.driver.find_element(element).text))
+        return self.driver.find_element(element).text
 
     @property
     def get_alert_text(self):
@@ -93,17 +92,17 @@ class BasePage(object):
     @property
     def submit(self, element):
         """提交表单"""
-        self.find_element(element).submit()
+        self.driver.find_element(element).submit()
 
     @property
     def is_displayed(self, element):
         """是否可见"""
-        flag = self.find_element(element).is_displayed()
+        flag = self.driver.find_element(element).is_displayed()
         return flag
 
     def is_enabled(self, element):
-        """是否可见"""
-        flag = self.find_element(element).is_enabled()
+        """元素是否可以进行操作"""
+        flag = self.driver.find_element(element).is_enabled()
         return flag
 
     def get(self, url):
@@ -164,6 +163,15 @@ class BasePage(object):
         """获取当前方法名称"""
         return inspect.stack()[1][3]
 
+    def get_background_color(self, locate):
+        """
+        获取当前元素的背景颜色
+        :param locate:
+        :return:
+        """
+        element = self.driver.find_element(*locate)
+        return element.value_of_css_property("background-color")
+
     def swipe(self, direction, length=None):
         """
         滑动窗口
@@ -199,6 +207,7 @@ class BasePage(object):
             raise WebDriverException(
                 'Entered the wrong direction "{}", please confirm whether it is one of up, down, left, right！'.format(
                     direction))
+
 
     def find_element(self, locate, index=0, max_times=20, delay=0.5, displayed=True):
         """
@@ -444,7 +453,8 @@ class BasePage(object):
                 self.execute_script("arguments[0].delete;", elements)
                 logger.info("Delete  -->  {}[{}] success".format(locate, index))
             except WebDriverException as e:
-                logger.error("Delete  -->  {}[{}] failure\nFailed to delete the element with {}".format(locate, index, e))
+                logger.error(
+                    "Delete  -->  {}[{}] failure\nFailed to delete the element with {}".format(locate, index, e))
                 raise WebDriverException(self.daf.get_screenshot(self.driver))
         else:
             for i, element in enumerate(elements):
@@ -453,7 +463,8 @@ class BasePage(object):
                     elements.send_keys(Keys.DELETE)
                     logger.info("Delete  -->  {}[{}] success".format(locate, i))
                 except WebDriverException as e:
-                    logger.error("Delete  -->  {}[{}] failure\nFailed to delete the element with {}".format(locate, i, e))
+                    logger.error(
+                        "Delete  -->  {}[{}] failure\nFailed to delete the element with {}".format(locate, i, e))
                     raise WebDriverException(self.daf.get_screenshot(self.driver))
 
     def wait_text(self, locate, text, index=0, max_times=20, delay=0.5, displayed=True):
