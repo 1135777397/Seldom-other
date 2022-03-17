@@ -16,6 +16,8 @@ class to_init():
     def __init__(self):
         self.user_info = {"userName": "AutoTest", "password": "123456"}
         self.user_admin = {"userName": "admin", "password": "123456"}
+        # all/test/Login/UserManage(要执行的)
+        self.test_type = 'login'
 
     def get_driver(self):
         """打开网页并获取driver"""

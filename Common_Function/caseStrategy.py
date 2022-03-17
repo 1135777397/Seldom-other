@@ -16,6 +16,7 @@ class CaseStrategy:
         self.case_path = 'test_XPS'
         self.case_pattern = 'test_*.py'
 
+
     def _collect_cases(self, start, cases, top_dir=None):
         # 批量跑用例
         suites = unittest.defaultTestLoader.discover(start_dir=start,
