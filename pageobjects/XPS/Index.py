@@ -17,7 +17,7 @@ class IndexPage(BasePage):
         self.index_light = (By.XPATH, "//div[@class='header-icon-wrap'][1]")  # 指示灯按钮,希望后续加id，name
         """指示灯（字段都有的情况下）"""
         """做市指示灯"""
-        self.light_Mark = (By.XPATH, "//span[text()='双边做市']")  # 双边做市
+        self.light_Mark = (By.XPATH, "//div[@class='onOrOffTitle']/span[text()='双边做市']")  # 双边做市
         self.light_Mark_open = (By.XPATH, "(//span[@class='onOrOff-text'])[1]")  # 是否开市字段
         self.light_Mark_isopen = (By.XPATH, "//div[@class='onOrOffClass']/div[2]/div[1]/div")  # 如果有做市指示灯，是否开市
         self.light_Mark_trade = (By.XPATH, "(//span[@class='onOrOff-text'])[2]")  # 交易接口字段
@@ -25,7 +25,7 @@ class IndexPage(BasePage):
         self.light_Mark_quotes = (By.XPATH, "(//span[@class='onOrOff-text'])[3]")  # 行情接口字段
         self.light_Mark_isquotes = (By.XPATH, "//div[@class='onOrOffClass']/div[2]/div[3]/div")  # 如果有做市指示灯，行情接口
         """X-Bond指示灯"""
-        self.light_XBond = (By.XPATH, "//span[text()='X-Bond']")  # X-Bond
+        self.light_XBond = (By.XPATH, "//div[@class='onOrOffTitle']/span[text()='X-Bond']")  # X-Bond
         self.light_XBond_open = (By.XPATH, "(//span[@class='onOrOff-text'])[4]")  # 是否开市字段
         self.light_XBond_isopen = (By.XPATH, "//div[@class='onOrOffClass']/div[4]/div[1]/div")  # 如果有做市指示灯，是否开市
         self.light_XBond_trade = (By.XPATH, "(//span[@class='onOrOff-text'])[5]")  # 交易接口字段
@@ -33,7 +33,7 @@ class IndexPage(BasePage):
         self.light_XBond_quotes = (By.XPATH, "(//span[@class='onOrOff-text'])[6]")  # 行情接口字段
         self.light_XBond_isquotes = (By.XPATH, "//div[@class='onOrOffClass']/div[4]/div[3]/div")  # 如果有做市指示灯，行情接口
         """X-Swap指示灯"""
-        self.light_XSwap = (By.XPATH, "//span[text()='X-Swap']")  # X-Swap
+        self.light_XSwap = (By.XPATH, "//div[@class='onOrOffTitle']/span[text()='X-Swap']")  # X-Swap
         self.light_XSwap_open = (By.XPATH, "(//span[@class='onOrOff-text'])[7]")  # 是否开市字段
         self.light_XSwap_isopen = (By.XPATH, "//div[@class='onOrOffClass']/div[6]/div[1]/div")  # 是否开市
         self.light_XSwap_trade = (By.XPATH, "(//span[@class='onOrOff-text'])[8]")  # 交易接口字段
@@ -41,7 +41,7 @@ class IndexPage(BasePage):
         self.light_XSwap_quotes = (By.XPATH, "(//span[@class='onOrOff-text'])[9]")  # 行情接口字段
         self.light_XSwap_isquotes = (By.XPATH, "//div[@class='onOrOffClass']/div[6]/div[3]/div")  # 行情接口
         """X-Repo指示灯"""
-        self.light_XRepo = (By.XPATH, "//span[text()='X-Repo']")  # X-Repo
+        self.light_XRepo = (By.XPATH, "//div[@class='onOrOffTitle']/span[text()='X-Repo']")  # X-Repo
         self.light_XRepo_open = (By.XPATH, "(//span[@class='onOrOff-text'])[10]")  # 是否开市字段
         self.light_XRepo_isopen = (By.XPATH, "//div[@class='onOrOffClass']/div[8]/div[1]/div")  # 如果有做市指示灯，是否开市
         self.light_XRepo_trade = (By.XPATH, "(//span[@class='onOrOff-text'])[11]")  # 交易接口字段
@@ -49,14 +49,14 @@ class IndexPage(BasePage):
         self.light_XRepo_quotes = (By.XPATH, "(//span[@class='onOrOff-text'])[12]")  # 行情接口字段
         self.light_XRepo_isquotes = (By.XPATH, "//div[@class='onOrOffClass']/div[8]/div[3]/div")  # 如果有做市指示灯，行情接口
         """国债期货指示灯"""
-        self.light_Futures = (By.XPATH, "//span[text()='国债期货']")  # 国债期货
+        self.light_Futures = (By.XPATH, "//div[@class='onOrOffTitle']/span[text()='国债期货']")  # 国债期货
         self.light_Futures_trade = (By.XPATH, "(//span[@class='onOrOff-text'])[13]")  # 交易接口字段
         self.light_Futures_istrade = (By.XPATH, "//div[@class='onOrOffClass']/div[10]/div[1]/div")  # 如果有做市指示灯，交易接口
         self.light_Futures_quotes = (By.XPATH, "(//span[@class='onOrOff-text'])[14]")  # 行情接口字段
         self.light_Futures_isquotes = (By.XPATH, "//div[@class='onOrOffClass']/div[10]/div[2]/div")  # 如果有做市指示灯，行情接口
 
         """左侧导航栏"""
-        self.nav_Bar_Expand = (By.XPATH, "//i[@class='el-icon-s-fold']")  # 导航栏拉宽
+        self.nav_Bar_Expand = (By.XPATH, "//div[@class='menu-collapse']//i[1]")  # 导航栏拉宽
         self.sys_Management = (By.XPATH, "//span[text()='系统管理']")  # 系统管理
         # 系统管理_基础管理
         self.basic_Management = (By.XPATH, "//span[text()='基础管理']")  # 基础管理

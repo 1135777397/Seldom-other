@@ -6,8 +6,10 @@
           许多控件的操作方法
 """
 from Common_Function.logger import Logger
-from selenium.common.exceptions import ElementNotInteractableException, WebDriverException
+from selenium.common.exceptions import ElementNotInteractableException, WebDriverException, \
+    StaleElementReferenceException
 # 暂时用这个ui，后续接jenkins
+from selenium.webdriver.remote.webelement import WebElement
 from Common_Function.HTMLTestReportCN import DirAndFiles
 # inspect模块是针对模块，类，方法，功能等对象提供些有用的方法
 from selenium.webdriver.remote.webdriver import WebDriver
@@ -94,7 +96,6 @@ class BasePage(object):
         """提交表单"""
         self.driver.find_element(element).submit()
 
-    @property
     def is_displayed(self, element):
         """是否可见"""
         flag = self.driver.find_element(element).is_displayed()
@@ -166,11 +167,55 @@ class BasePage(object):
     def get_background_color(self, locate):
         """
         获取当前元素的背景颜色
-        :param locate:
+        :param locate: 元素定位
         :return:
         """
         element = self.driver.find_element(*locate)
         return element.value_of_css_property("background-color")
+
+    def get_table_data(self, locate, data_type='text'):
+        """
+        以二维数组返回表格每一行的每一列的数据[[row1][row2][colume1,clume2]]
+        :param locate: 元素定位
+        :param data_type: text-返回表格文本内容,html-返回表格html内容,webElement-返回表格元素
+        :return:
+        """
+        webElement = self.find_element(locate, displayed=True)
+        table_data = []
+        table_trs = webElement.find_elements_by_tag_name('tr')
+        try:
+            # 为防止表格内的内容变化导致无法获取内容,进行异常捕获
+            for tr in table_trs:
+                tr_data = []
+                tr_tds = tr.find_elements_by_tag_name('td')
+                if data_type.lower() == 'text':
+                    for td in tr_tds:
+                        tr_data.append(td.text)
+                elif data_type.lower() == 'html':
+                    for td in tr_tds:
+                        tr_data.append(td.get_attribute('innerHTML'))
+                elif data_type.lower() == 'webelement':
+                    tr_data = tr_tds
+                table_data.append(tr_data)
+        except StaleElementReferenceException as e:
+            logger.error('获取表格内容异常:' + e.msg)
+        return table_data
+
+    def get_table_data_by_list(self, locate, list=1, data_type='text'):
+        table_list = []
+        table_data = self.get_table_data(locate, data_type=data_type)
+        logger.info("获取表格第{}列数据".format(list))
+        for i in range(0, len(table_data)):
+            table_list.append(table_data[i][list - 1])
+        return table_list
+
+    def get_table_data_by_row(self, locate, row=1, data_type='text'):
+        table_list = []
+        table_data = self.get_table_data(locate, data_type=data_type)
+        logger.info("获取表格第{}行数据".format(row))
+        for i in range(0, len(table_data)):
+            table_list.append(table_data[row - 1][i])
+        return table_list
 
     def swipe(self, direction, length=None):
         """
@@ -207,7 +252,6 @@ class BasePage(object):
             raise WebDriverException(
                 'Entered the wrong direction "{}", please confirm whether it is one of up, down, left, right！'.format(
                     direction))
-
 
     def find_element(self, locate, index=0, max_times=20, delay=0.5, displayed=True):
         """
@@ -330,7 +374,7 @@ class BasePage(object):
             except Exception as e:
                 raise e
 
-    def exists(self, locate, index=0, displayed=True):
+    def exists(self, locate, index=0, max_times=10, delay=0.5, displayed=True):
         """
         检查当前时刻元素是否存在
         :param locate:
@@ -339,7 +383,7 @@ class BasePage(object):
         :return:
         """
         try:
-            self.find_element(locate, index, max_times=1, displayed=displayed)
+            self.find_element(locate, index, max_times, delay, displayed=displayed)
             return True
         except:
             return False
