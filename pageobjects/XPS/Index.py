@@ -10,7 +10,7 @@ class IndexPage(BasePage):
         '''
         **********************************************XPS主页面**********************************************
         '''
-        self.index_logout = (By.XPATH, "//*[contains(.,'" + "退出" + "')]")  # 退出按钮
+        self.index_logout = (By.XPATH, "//span[text()='退出']")  # 退出按钮
         self.index_role_but = (By.XPATH, "//span[@role='button']")  # 带登录用户名的按钮
         self.index_logo = (By.XPATH, "//div[@class='header']//i")  # 登录页面logo
         self.index_label_frontpage = (By.XPATH, "//span[text()=' 首页 ']")  # 首页标签

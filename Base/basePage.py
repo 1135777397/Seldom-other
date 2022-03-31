@@ -5,15 +5,16 @@
     Notes:定义一个页面基类，让所有页面都继承这个类，封装常用的页面操作方法到这个类
           许多控件的操作方法
 """
+from selenium.webdriver.support.wait import WebDriverWait
+
 from Common_Function.logger import Logger
 from selenium.common.exceptions import ElementNotInteractableException, WebDriverException, \
     StaleElementReferenceException
 # 暂时用这个ui，后续接jenkins
-from selenium.webdriver.remote.webelement import WebElement
 from Common_Function.HTMLTestReportCN import DirAndFiles
 # inspect模块是针对模块，类，方法，功能等对象提供些有用的方法
-from selenium.webdriver.remote.webdriver import WebDriver
 import inspect
+from selenium.webdriver.remote.webelement import WebElement
 import time
 from selenium.webdriver.common.keys import Keys
 
@@ -86,6 +87,20 @@ class BasePage(object):
         return self.driver.find_element(element).text
 
     @property
+    def web_alert(self, action_type='accept'):
+        """
+        :action_type accept、dismiss
+        :return:
+        """
+        if action_type:
+            action_type.lower()
+        alert = self.driver.switch_to.alert
+        if action_type == 'accept':
+            alert.accept()
+        elif action_type == 'dismiss':
+            alert.dismiss()
+
+    @property
     def get_alert_text(self):
         """获取alert的信息"""
         alert = self.driver.switch_to.alert
@@ -101,9 +116,11 @@ class BasePage(object):
         flag = self.driver.find_element(element).is_displayed()
         return flag
 
+
     def is_enabled(self, element):
         """元素是否可以进行操作"""
-        flag = self.driver.find_element(element).is_enabled()
+        webElement = self.find_element(element, displayed=True)
+        flag = webElement.is_enabled()
         return flag
 
     def get(self, url):
