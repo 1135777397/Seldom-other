@@ -5,6 +5,7 @@
     Notes:定义一个页面基类，让所有页面都继承这个类，封装常用的页面操作方法到这个类
           许多控件的操作方法
 """
+from selenium.webdriver.support.select import Select
 from selenium.webdriver.support.wait import WebDriverWait
 
 from Common_Function.logger import Logger
@@ -111,11 +112,27 @@ class BasePage(object):
         """提交表单"""
         self.driver.find_element(element).submit()
 
+    def select_dropDownBox_by_value(self, element, value):
+        """
+        适用单选下拉框
+        :param element:
+        :param values:
+        :return:
+        """
+        logger.info(element, value)
+        webElement = self.find_element(element)
+        if webElement:
+            webElement = Select(webElement)
+            webElement.deselect_all()
+            webElement.select_by_value(value)
+            logger.error("未查到{0}".format(value))
+        else:
+            logger.error("传入的定位{0}有误".format(element))
+
     def is_displayed(self, element):
         """是否可见"""
         flag = self.driver.find_element(element).is_displayed()
         return flag
-
 
     def is_enabled(self, element):
         """元素是否可以进行操作"""

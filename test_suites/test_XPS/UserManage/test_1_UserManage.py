@@ -1,6 +1,4 @@
-import time
 import unittest
-from selenium.webdriver.common.alert import Alert
 from Common_Function.logger import Logger
 from test_suites.test_XPS import *
 from Common_Function.dateTimeTool import DateTimeTool
@@ -45,14 +43,13 @@ class UserManage(unittest.TestCase):
         cls.table = cls.userManage_page.get_table_data_by_list(cls.userManage_page.userManage_table)
         logger.info("获取列表信息")
 
-
     @classmethod
     def tearDownClass(cls):
         """
         测试结束后的操作，这里基本上都是关闭浏览器
         :return:
         """
-        logger.info("关闭浏览器" + cls.login_page.get_current_function)
+        logger.info("关闭浏览器" + cls.userManage_page.get_current_function)
         cls.driver.quit()
 
     @classmethod
@@ -73,7 +70,7 @@ class UserManage(unittest.TestCase):
         logger.info(self.userManage_page.get_current_function + '获取列表信息，历史用户正常显示' + ' --> Successed')
 
     @unittest.skipUnless(
-        to_init().test_type == 'all' or to_init().test_type == 'usermanage' ,
+        to_init().test_type == 'all' or to_init().test_type == 'usermanage',
         "非执行全部用例和login用例，跳过")
     def test_02_userManage(self):
         """历史用户修改功能正常"""
@@ -87,19 +84,19 @@ class UserManage(unittest.TestCase):
         logger.info("用户名、姓名不能修改判断" + ' --> Successed')
         self.userManage_page.send_keys(self.userManage_page.input_pwd, "123456")
         self.userManage_page.send_keys(self.userManage_page.input_conpwd, "123456")
-        self.userManage_page.click(self.userManage_page.but_con)
+        self.userManage_page.click(self.userManage_page.but_con_update)
         logger.info('修改成功')
         self.assertTrue(self.userManage_page.wait(self.userManage_page.msg_update_suc))
         logger.info(self.userManage_page.get_current_function + '历史用户修改功能正常' + ' --> Successed')
 
     @unittest.skipUnless(
-        to_init().test_type == 'all' or to_init().test_type == 'usermanage' or to_init().test_type == 'test',
+        to_init().test_type == 'all' or to_init().test_type == 'usermanage',
         "非执行全部用例和login用例，跳过")
     def test_03_userManage(self):
         """重置密码功能正常"""
         logger.info("test_03_userManage,重置密码功能是否正常")
         reset_pw_Xpath = pm.get_list_Xpath(dataList=self.table, data=self.userManage_page.historyuser,
-                                        left=self.userManage_page.his_reset_pwd)
+                                           left=self.userManage_page.his_reset_pwd)
         reset_pw = (By.XPATH, reset_pw_Xpath)
         self.userManage_page.click(reset_pw)
         self.userManage_page.click(self.userManage_page.his_rp_con)
@@ -113,3 +110,19 @@ class UserManage(unittest.TestCase):
         self.index_page.wait(self.index_page.index_logout)
         logger.info("重置密码校验成功！")
         logger.info(self.userManage_page.get_current_function + '重置密码功能正常' + ' --> Successed')
+
+    @unittest.skipUnless(
+        to_init().test_type == 'all' or to_init().test_type == 'usermanage' ,
+        "非执行全部用例和login用例，跳过")
+    def test_04_userManage(self):
+        """新增用户"""
+        logger.info("test_04_userManage,历史用户第三方用户绑定功能是否正常")
+        user_bind_Xpath = pm.get_list_Xpath(dataList=self.table, data=self.userManage_page.historyuser,
+                                            left=self.userManage_page.his_user_bind)
+        user_bind = (By.XPATH, user_bind_Xpath)
+        self.userManage_page.click(user_bind)
+        self.userManage_page.send_keys(self.userManage_page.user_id, "WZH")
+        self.userManage_page.select_dropDownBox_by_value(element=self.userManage_page.system_code, value="xir")
+        self.userManage_page.sleep(2)
+        self.userManage_page.click(self.userManage_page.but_con_user_bind)
+        self.userManage_page.sleep(2)

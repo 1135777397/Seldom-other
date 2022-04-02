@@ -16,8 +16,12 @@ class UserManagePage(BasePage):
         self.input_name = (By.XPATH, "//input[@placeholder='请输入姓名']")
         self.input_pwd = (By.XPATH, "//input[@placeholder='请输入密码']")
         self.input_conpwd = (By.XPATH, "//input[@placeholder='请确认密码']")
-        self.but_con = (By.XPATH, "//div[@aria-label='修改用户']//span[text()='确 定']")
+        self.but_con_update = (By.XPATH, "//div[@aria-label='修改用户']//span[text()='确 定']")
         self.msg_update_suc = (By.XPATH, "//p[text()='修改成功']")
         self.his_reset_pwd = "(//span[text()=' 重置密码 '])"
         self.his_rp_con = (By.XPATH, "(//div[@class='el-message-box__btns']//button)[2]")
         self.msg_rp_suc = (By.XPATH, "//p[text()='密码重置成功']")
+        self.his_user_bind = "(//span[text()=' 第三方用户绑定 '])"
+        self.user_id = (By.XPATH, "(//input[@class='el-input__inner'])[3]")
+        self.system_code = (By.XPATH, "//input[@placeholder='请选择']")
+        self.but_con_user_bind = (By.XPATH, "//div[@aria-label='用户【历史用户】与第三方用户映射管理']//span[text()='确 定']")
