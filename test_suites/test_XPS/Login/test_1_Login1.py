@@ -12,7 +12,7 @@ logger = Logger(logger="XPS_Login1").getlogger()
 
 
 @unittest.skipUnless(
-    to_init().test_type == 'all' or to_init().test_type == 'login',
+    to_init().test_type == 'all' or to_init().test_type == 'login' or to_init().test_type =='test',
     "非执行全部用例和login用例，跳过")
 class Login1(unittest.TestCase):
     """测试点登录功能"""

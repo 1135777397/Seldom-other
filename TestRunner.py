@@ -8,7 +8,7 @@ from Common_Function.readConfig import ReadConfig
 from Common_Function.caseStrategy import CaseStrategy
 
 
-class RunAllTests(object):
+class RunAllWebUITests(object):
 
     def __init__(self):
         cs = CaseStrategy()
@@ -26,6 +26,11 @@ class RunAllTests(object):
                                                      tester=self.tester)
             runner.run(self.test_suite)
 
+class  RunAllApiTest(object):
+    def __init__(self):
+        cs = CaseStrategy()
+
 
 if __name__ == "__main__":
-    RunAllTests().run()
+    RunAllWebUITests().run()
+
